@@ -1,18 +1,21 @@
 defmodule TellerApi.App do
     import TellerApi.Signin
     import TellerApi.MFA
+    import TellerApi.MFAVerify
 
     def start do
         # device_id = IO.gets("Device ID: ") |> to_string() |> String.trim()
-        res = signin()  # Pass the deviceId to the signin function
-        IO.inspect(res)
+        res = signin()
         response = elem(res, 1)
-
         header = elem(res, 2)
-
         devices = handle_signin_response(response)
-        mfaResponse = mfa(devices, header)
-        IO.inspect(mfaResponse)
+
+        resMFA = mfa(devices, header)
+        _response = elem(resMFA, 1)
+        header = elem(resMFA, 2)
+
+        _mfaVerifyResponse = mfaVerify(header)
+        IO.puts("")
     end
 
     defp handle_signin_response(response) do

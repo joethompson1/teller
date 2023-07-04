@@ -1,11 +1,12 @@
 defmodule TellerApi.MFA do
     use HTTPoison.Base
     import TellerAPI.Utils.TokenUtils
+    import TellerAPI.Utils.ResponseUtils
 
     @base_url "https://test.teller.engineering"
 
     def mfa([], _header) do
-        IO.puts("Error: no devices found.")
+        IO.puts("Error: no verify device found.")
     end
 
     def mfa([device | _rest], header) do
@@ -54,19 +55,31 @@ defmodule TellerApi.MFA do
             "device_id" => mfa_device_id
         }
 
+        IO.puts("POST /signin/mfa")
+        outputResponse(headers)
+        IO.puts(Poison.encode!(body, pretty: true) <> "\n")
+
+
+
         response = post(url, Poison.encode!(body), headers)
         {:ok, unpacked} = response
         response_headers = unpacked.headers
-        IO.inspect(response_headers)
 
         case response do
             {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} ->
                 # Successful response
-                decoded_response = Poison.decode!(response_body)
-                {:ok, decoded_response, response_headers}  # Return decoded response and headers
+                status_code = 200
+                status_text = get_status_text(status_code)
+                IO.puts("#{status_code} #{status_text}")
+                decoded_body = Poison.decode!(response_body)
+                outputResponse(response_headers)
+                IO.puts(Poison.encode!(decoded_body, pretty: true) <> "\n")
+                {:ok, decoded_body, response_headers}  # Return decoded response and headers
 
             {:ok, %HTTPoison.Response{status_code: status_code, body: response_body}} ->
                 # Handle other response codes
+                status_text = get_status_text(status_code)
+                IO.puts("#{status_code} #{status_text}")
                 {:error, {status_code, response_body}, response_headers}
 
             {:error, error} ->
