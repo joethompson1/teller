@@ -5,7 +5,6 @@ defmodule TellerAPI.Utils.TokenUtils do
 
     def decode_f_token_spec(f_token_spec) do
         {:ok, decoded_token} = Base.decode64(f_token_spec)
-        IO.inspect(decoded_token)
 
         # Returns everything inside of brackets
         result =
@@ -35,6 +34,25 @@ defmodule TellerAPI.Utils.TokenUtils do
         else
             {resultArray, split_character}
         end
+    end
+
+
+    def format_f_token(resultArray, f_request_id, device_id, username, password, api_key) do
+        [result1, result2, result3] = resultArray
+
+        variable_map = %{
+            "last-request-id" => f_request_id,
+            "username" => username,
+            "password" => password,
+            "device-id" => device_id,
+            "api-key" => api_key,
+        }
+
+        fvar1 = variable_map[result1]
+        fvar2 = variable_map[result2]
+        fvar3 = variable_map[result3]
+
+        {fvar1, fvar2, fvar3}
     end
 
 

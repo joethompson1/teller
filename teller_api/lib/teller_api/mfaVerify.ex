@@ -13,23 +13,12 @@ defmodule TellerApi.MFAVerify do
 
         response_map = Enum.into(prevResponse, %{})
 
-        f_request_id = Map.get(response_map, "f-request-id", nil)
-        r_token = Map.get(response_map, "r-token", nil)
-        f_token_spec = Map.get(response_map, "f-token-spec", nil)
+        f_request_id = response_map["f-request-id"]
+        r_token = response_map["r-token"]
+        f_token_spec = response_map["f-token-spec"]
         {resultArray, split_character} = decode_f_token_spec(f_token_spec)
-        [result1, result2, result3] = resultArray
-
-        variable_map = %{
-            "last-request-id" => f_request_id,
-            "username" => username,
-            "password" => password,
-            "device-id" => device_id,
-            "api-key" => api_key,
-        }
-
-        fvar1 = variable_map[result1]
-        fvar2 = variable_map[result2]
-        fvar3 = variable_map[result3]
+        
+        {fvar1, fvar2, fvar3} = format_f_token(resultArray, f_request_id, device_id, username, password, api_key)
 
         f_token = create_f_token(fvar1, fvar2, fvar3, split_character)
 

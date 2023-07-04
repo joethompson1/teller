@@ -23,7 +23,7 @@ defmodule TellerApi.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.8"},
-      {:poison, "~> 4.0"}
+      {:poison, "~> 4.0"},
     ]
   end
 end
