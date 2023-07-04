@@ -26,8 +26,12 @@ defmodule TellerAPI.Utils.TokenUtils do
 
         # if split character is "::" then resultArray will be length 5 due to empty spaces
         if length(resultArray) == 5 do
-            modifiedArray = [elem(resultArray, 0), elem(resultArray, 0), elem(resultArray, 0)]
-            {modifiedArray, split_character}        
+            modifiedArray = [
+                Enum.at(resultArray, 0),
+                Enum.at(resultArray, 2),
+                Enum.at(resultArray, 4)
+            ]
+            {modifiedArray, "::"}        
         else
             {resultArray, split_character}
         end
