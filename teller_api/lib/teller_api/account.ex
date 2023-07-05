@@ -13,6 +13,7 @@ defmodule TellerApi.Account do
         api_key = Application.get_env(:teller_api, :api_key)
 
         response_map = Enum.into(prevResponse, %{})
+        IO.inspect(response_map)
 
         f_request_id = response_map["f-request-id"]
         r_token = response_map["r-token"]

@@ -5,30 +5,28 @@ defmodule TellerApi.Signin do
     @base_url "https://test.teller.engineering"
 
     def signin() do
-        device_id = Application.get_env(:teller_api, :device_id)
+        # Get the current states
+        header_state = TellerApi.HeaderState.get_state()
+        body_state = TellerApi.LoginState.get_state()
 
         url = "#{@base_url}/signin"
-        headers = [
-            {"user-agent", "Teller Bank iOS 2.0"},
-            {"api-key", "HowManyGenServersDoesItTakeToCrackTheBank?"},
-            {"device-id", device_id},  # Add the device_id to the headers
-            {"content-type", "application/json"},
-            {"accept", "application/json"}
-        ]
+        headers = header_state
         body = %{
-            "password" => "papuanewguinea",
-            "username" => "green_lucky"
+            "username" => body_state["username"],
+            "password" => body_state["password"],
         }
 
         IO.puts("POST /signin")
-        outputResponse(headers)
+        output_response(headers)
         IO.puts(Poison.encode!(body, pretty: true) <> "\n")
 
 
         response = post(url, Poison.encode!(body), headers)
         {:ok, unpacked} = response
         response_headers = unpacked.headers
-
+        response_body = Poison.decode!(unpacked.body)
+        TellerApi.BodyState.update_state(response_body)
+        
         handle_response(response, response_headers)
     end
 end

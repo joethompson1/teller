@@ -1,4 +1,5 @@
 defmodule TellerAPI.Utils.ResponseUtils do
+    import TellerAPI.Utils.TokenUtils
 
     @moduledoc """
     Utility functions for response messages.
@@ -16,10 +17,37 @@ defmodule TellerAPI.Utils.ResponseUtils do
     end
 
 
-    def outputResponse(headers) do
+    def output_response(headers) do
         Enum.each(headers, fn {key, value} ->
             IO.puts("#{key}: #{value}")
         end)
+    end
+
+
+    def update_header_state(headers) do
+        # Get the current states
+        header_state = TellerApi.HeaderState.get_state()
+        login_state = TellerApi.LoginState.get_state()
+        {_device_id_key, device_id} = Enum.find(header_state, fn {key, _value} -> key == "device-id" end)
+        {_api_key_key, api_key} = Enum.find(header_state, fn {key, _value} -> key == "api-key" end)
+        
+        {_f_request_id_key, f_request_id} = Enum.find(headers, fn {key, _value} -> key == "f-request-id" end)
+        {_f_token_spec_key, f_token_spec} = Enum.find(headers, fn {key, _value} -> key == "f-token-spec" end)
+        {_r_token_key, r_token_value} = Enum.find(headers, fn {key, _value} -> key == "r-token" end)
+
+        {resultArray, split_character} = decode_f_token_spec(f_token_spec)
+        {fvar1, fvar2, fvar3} = format_f_token(resultArray, f_request_id, device_id, login_state["username"], login_state["password"], api_key)
+        f_token = create_f_token(fvar1, fvar2, fvar3, split_character)
+
+        updated_header_state = Enum.map(header_state, fn {key, value} ->
+            case key do
+                "r-token" -> {key, r_token_value}
+                "f-token" -> {key, f_token}
+                _ -> {key, value}
+            end
+        end)
+
+        TellerApi.HeaderState.update_state(updated_header_state)
     end
 
 
@@ -31,9 +59,9 @@ defmodule TellerAPI.Utils.ResponseUtils do
                 status_text = get_status_text(status_code)
                 IO.puts("\e[32m#{status_code} #{status_text}\e[0m")
                 decoded_body = Poison.decode!(response_body)
-                outputResponse(response_headers)
+                output_response(response_headers)
+                update_header_state(response_headers)
                 IO.puts(Poison.encode!(decoded_body, pretty: true) <> "\n")
-                {:ok, decoded_body, response_headers}  # Return decoded response and headers
 
             {:ok, %HTTPoison.Response{status_code: status_code, body: response_body}} ->
                 error_details = Poison.decode!(response_body)
@@ -41,11 +69,9 @@ defmodule TellerAPI.Utils.ResponseUtils do
                 error_message = Map.get(error_details, "error") |> Map.get("message")
                 IO.puts("\e[31m#{status_code} #{status_text}\e[0m")
                 IO.puts("#{error_message}")
-                {:error, {status_code, response_body}, response_headers}
 
             {:error, error} ->
                 IO.puts("Request failed: #{error}")
-                {:error, error, response_headers}
         end
     end
 
