@@ -1,6 +1,5 @@
 defmodule TellerApi.MFA do
     use HTTPoison.Base
-    import TellerAPI.Utils.TokenUtils
     import TellerAPI.Utils.ResponseUtils
 
     @base_url "https://test.teller.engineering"

@@ -28,12 +28,12 @@ defmodule TellerAPI.Utils.ResponseUtils do
         # Get the current states
         header_state = TellerApi.HeaderState.get_state()
         login_state = TellerApi.LoginState.get_state()
-        {_device_id_key, device_id} = Enum.find(header_state, fn {key, _value} -> key == "device-id" end)
-        {_api_key_key, api_key} = Enum.find(header_state, fn {key, _value} -> key == "api-key" end)
-        
-        {_f_request_id_key, f_request_id} = Enum.find(headers, fn {key, _value} -> key == "f-request-id" end)
-        {_f_token_spec_key, f_token_spec} = Enum.find(headers, fn {key, _value} -> key == "f-token-spec" end)
-        {_r_token_key, r_token} = Enum.find(headers, fn {key, _value} -> key == "r-token" end)
+
+        {_device_id_key, device_id} = Enum.find(header_state, fn {key, _value} -> key == "device-id" end) || {"", ""}
+        {_api_key_key, api_key} = Enum.find(header_state, fn {key, _value} -> key == "api-key" end) || {"", ""}
+        {_f_request_id_key, f_request_id} = Enum.find(headers, fn {key, _value} -> key == "f-request-id" end) || {"", ""}
+        {_f_token_spec_key, f_token_spec} = Enum.find(headers, fn {key, _value} -> key == "f-token-spec" end) || {"", ""}
+        {_r_token_key, r_token} = Enum.find(headers, fn {key, _value} -> key == "r-token" end) || {"", ""}
         {_s_token_key, s_token} = Enum.find(headers, fn {key, _value} -> key == "s-token" end) || {"", ""}
 
 
