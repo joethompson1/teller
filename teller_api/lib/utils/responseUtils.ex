@@ -33,7 +33,9 @@ defmodule TellerAPI.Utils.ResponseUtils do
         
         {_f_request_id_key, f_request_id} = Enum.find(headers, fn {key, _value} -> key == "f-request-id" end)
         {_f_token_spec_key, f_token_spec} = Enum.find(headers, fn {key, _value} -> key == "f-token-spec" end)
-        {_r_token_key, r_token_value} = Enum.find(headers, fn {key, _value} -> key == "r-token" end)
+        {_r_token_key, r_token} = Enum.find(headers, fn {key, _value} -> key == "r-token" end)
+        {_s_token_key, s_token} = Enum.find(headers, fn {key, _value} -> key == "s-token" end) || {"", ""}
+
 
         {resultArray, split_character} = decode_f_token_spec(f_token_spec)
         {fvar1, fvar2, fvar3} = format_f_token(resultArray, f_request_id, device_id, login_state["username"], login_state["password"], api_key)
@@ -41,8 +43,9 @@ defmodule TellerAPI.Utils.ResponseUtils do
 
         updated_header_state = Enum.map(header_state, fn {key, value} ->
             case key do
-                "r-token" -> {key, r_token_value}
+                "r-token" -> {key, r_token}
                 "f-token" -> {key, f_token}
+                "s-token" -> {key, s_token}
                 _ -> {key, value}
             end
         end)

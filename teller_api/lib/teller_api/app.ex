@@ -17,6 +17,7 @@ defmodule TellerApi.App do
             {"device-id", "SM22X3DIAPKGRGUJ"},
             {"r-token", ""},
             {"f-token", ""},
+            {"s-token", ""},
             {"content-type", "application/json"},
             {"accept", "application/json"}
         ]
@@ -38,14 +39,11 @@ defmodule TellerApi.App do
         mfa()
 
         mfaVerify()
-        # _response = elem(resMFSVerify, 1)
-        # header = elem(resMFSVerify, 2)
-        # request_account_balance(header)
-        IO.puts("")
+        IO.puts("Successfully logged in!")
     end
 
-    # def account_details do
-    #     request_account_details()
-    # end
+    def account_balance do
+        request_account_balance()
+    end
 
 end
