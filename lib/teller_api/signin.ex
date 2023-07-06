@@ -4,11 +4,8 @@ defmodule TellerApi.Signin do
 
     @base_url "https://test.teller.engineering"
 
-    def signin() do
-        # Get the current states
-        header_state = TellerApi.State.Header.get_state()
-        body_state = TellerApi.State.Login.get_state()
-
+    def signin(header_state, body_state) do
+        
         url = "#{@base_url}/signin"
         headers = header_state
         body = %{

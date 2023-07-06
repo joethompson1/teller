@@ -14,7 +14,7 @@ defmodule TellerApi.App do
             {"teller-mission", "accepted!"},
             {"user-agent", "Teller Bank iOS 2.0"},
             {"api-key", "HowManyGenServersDoesItTakeToCrackTheBank?"},
-            {"device-id", "SM22X3DIAPKGRGUJ"},
+            {"device-id", "SM22X3DIAPKGRGUX"},
             {"r-token", ""},
             {"f-token", ""},
             {"s-token", ""},
@@ -31,12 +31,19 @@ defmodule TellerApi.App do
         TellerApi.State.Login.start_link(initial_login_state)
         TellerApi.State.Body.start_link(initial_login_state)
 
-        signin()
+        signin(initial_header_state, initial_login_state)
 
-        mfa()
+        curHeaderState = TellerApi.State.Header.get_state()
+        {_r_token_key, r_token} = Enum.find(curHeaderState, fn {key, _value} -> key == "r-token" end)
 
-        mfaVerify()
-        IO.puts("Successfully logged in!")
+        if (r_token == "") do
+            IO.puts("Incorrect authentication details")
+            :error
+        else
+            mfa()
+            mfaVerify()
+            IO.puts("Successfully logged in!")
+        end
     end
 
     def account_balance do
