@@ -17,13 +17,17 @@ defmodule TellerApi.Signin do
         output_response(headers)
         IO.puts(Poison.encode!(body, pretty: true) <> "\n")
 
+        {:ok, %HTTPoison.Response{status_code: status_code, body: body, headers: headers}} = post(url, Poison.encode!(body), headers)
 
-        response = post(url, Poison.encode!(body), headers)
-        {:ok, unpacked} = response
-        response_headers = unpacked.headers
-        response_body = Poison.decode!(unpacked.body)
-        TellerApi.State.Body.update_state(response_body)
-        
-        handle_response(response, response_headers)
+        body = Poison.decode!(body)
+        TellerApi.State.Body.update_state(body)
+
+        update_header_state(headers)
+
+        status_text = get_status_text(status_code)
+        IO.puts("\e[32m#{status_code} #{status_text}\e[0m")
+        output_response(headers)
+
+        handle_response(status_code, body)
     end
 end

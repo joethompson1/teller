@@ -6,13 +6,11 @@ defmodule TellerApi.Account do
 	@account_id "acc_uxbv5e624mbx2ool72xtpbzy7wdl34yohj2away"
 
 	def request_account_balance() do
-        # Get the current states
-        header_state = TellerApi.State.Header.get_state()
-
 		url = "#{@base_url}/accounts/#{@account_id}/balances"
-		headers = header_state
+        headers = TellerApi.State.Header.get_state()
 
-		response = HTTPoison.get(url, headers)
-		handle_teller_response(response)
+        {:ok, %HTTPoison.Response{status_code: status_code, body: body}} = get(url, headers)
+        body = Poison.decode!(body)
+        handle_response(status_code, body)
 	end
 end
