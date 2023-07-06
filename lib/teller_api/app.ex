@@ -27,12 +27,9 @@ defmodule TellerApi.App do
             "password" => "papuanewguinea",
         }
         
-        {:ok, _} = TellerApi.State.Header.start_link(initial_header_state)
-
-        {:ok, _} = TellerApi.State.Login.start_link(initial_login_state)
-
-        {:ok, _} = TellerApi.State.Body.start_link(initial_login_state)
-
+        TellerApi.State.Header.start_link(initial_header_state)
+        TellerApi.State.Login.start_link(initial_login_state)
+        TellerApi.State.Body.start_link(initial_login_state)
 
         signin()
 
@@ -43,7 +40,14 @@ defmodule TellerApi.App do
     end
 
     def account_balance do
-        request_account_balance()
+        case Process.whereis(TellerApi.State.Header) do
+            nil ->
+                IO.puts("Login required.")
+                :error
+
+            _pid ->
+                request_account_balance() 
+        end
     end
 
 end
