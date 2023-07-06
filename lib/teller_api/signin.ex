@@ -1,13 +1,13 @@
 defmodule TellerApi.Signin do
     use HTTPoison.Base
-    import TellerAPI.Utils.ResponseUtils
+    import TellerAPI.Utils.Response
 
     @base_url "https://test.teller.engineering"
 
     def signin() do
         # Get the current states
-        header_state = TellerApi.HeaderState.get_state()
-        body_state = TellerApi.LoginState.get_state()
+        header_state = TellerApi.State.Header.get_state()
+        body_state = TellerApi.State.Login.get_state()
 
         url = "#{@base_url}/signin"
         headers = header_state
@@ -25,7 +25,7 @@ defmodule TellerApi.Signin do
         {:ok, unpacked} = response
         response_headers = unpacked.headers
         response_body = Poison.decode!(unpacked.body)
-        TellerApi.BodyState.update_state(response_body)
+        TellerApi.State.Body.update_state(response_body)
         
         handle_response(response, response_headers)
     end

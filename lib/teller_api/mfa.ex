@@ -1,13 +1,13 @@
 defmodule TellerApi.MFA do
     use HTTPoison.Base
-    import TellerAPI.Utils.ResponseUtils
+    import TellerAPI.Utils.Response
 
     @base_url "https://test.teller.engineering"
 
     def mfa() do
         # Get the current states
-        header_state = TellerApi.HeaderState.get_state()
-        body_state = TellerApi.BodyState.get_state()
+        header_state = TellerApi.State.Header.get_state()
+        body_state = TellerApi.State.Body.get_state()
 
         devices = body_state["data"]["devices"]
         first_device = List.first(devices)
@@ -30,7 +30,7 @@ defmodule TellerApi.MFA do
         {:ok, unpacked} = response
         response_headers = unpacked.headers
         response_body = Poison.decode!(unpacked.body)
-        TellerApi.BodyState.update_state(response_body)
+        TellerApi.State.Body.update_state(response_body)
 
         handle_response(response, response_headers)
     end

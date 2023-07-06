@@ -1,12 +1,12 @@
 defmodule TellerApi.MFAVerify do
     use HTTPoison.Base
-    import TellerAPI.Utils.ResponseUtils
+    import TellerAPI.Utils.Response
 
     @base_url "https://test.teller.engineering"
 
     def mfaVerify() do
         # Get the current states
-        header_state = TellerApi.HeaderState.get_state()
+        header_state = TellerApi.State.Header.get_state()
 
         url = "#{@base_url}/signin/mfa/verify"
         headers = header_state

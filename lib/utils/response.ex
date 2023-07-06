@@ -1,5 +1,5 @@
-defmodule TellerAPI.Utils.ResponseUtils do
-    import TellerAPI.Utils.TokenUtils
+defmodule TellerAPI.Utils.Response do
+    import TellerAPI.Utils.Token
 
     @moduledoc """
     Utility functions for response messages.
@@ -26,8 +26,8 @@ defmodule TellerAPI.Utils.ResponseUtils do
 
     def update_header_state(headers) do
         # Get the current states
-        header_state = TellerApi.HeaderState.get_state()
-        login_state = TellerApi.LoginState.get_state()
+        header_state = TellerApi.State.Header.get_state()
+        login_state = TellerApi.State.Login.get_state()
 
         {_device_id_key, device_id} = Enum.find(header_state, fn {key, _value} -> key == "device-id" end) || {"", ""}
         {_api_key_key, api_key} = Enum.find(header_state, fn {key, _value} -> key == "api-key" end) || {"", ""}
@@ -50,7 +50,7 @@ defmodule TellerAPI.Utils.ResponseUtils do
             end
         end)
 
-        TellerApi.HeaderState.update_state(updated_header_state)
+        TellerApi.State.Header.update_state(updated_header_state)
     end
 
 

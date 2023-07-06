@@ -1,4 +1,4 @@
-defmodule TellerApi.HeaderState do
+defmodule TellerApi.State.Header do
 	use Agent
 
 	def start_link(initial_state \\ []) do

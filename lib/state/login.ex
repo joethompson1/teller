@@ -1,4 +1,4 @@
-defmodule TellerApi.LoginState do
+defmodule TellerApi.State.Login do
 	use Agent
 
 	def start_link(initial_state) do

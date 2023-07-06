@@ -1,4 +1,4 @@
-defmodule TellerAPI.Utils.TokenUtils do
+defmodule TellerAPI.Utils.Token do
     @moduledoc """
     Utility functions for token operations.
     """
@@ -23,7 +23,7 @@ defmodule TellerAPI.Utils.TokenUtils do
         # Split the string on the split_character
         resultArray = String.split(result, ~r/#{Regex.escape(split_character)}/)
 
-        # if split character is "::" then resultArray will be length 5 due to empty spaces
+        # if split character is "::" then resultArray will contain empty spaces that need removing
         if length(resultArray) == 5 do
             modifiedArray = [
                 Enum.at(resultArray, 0),

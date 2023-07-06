@@ -27,11 +27,11 @@ defmodule TellerApi.App do
             "password" => "papuanewguinea",
         }
         
-        {:ok, _} = TellerApi.HeaderState.start_link(initial_header_state)
+        {:ok, _} = TellerApi.State.Header.start_link(initial_header_state)
 
-        {:ok, _} = TellerApi.LoginState.start_link(initial_login_state)
+        {:ok, _} = TellerApi.State.Login.start_link(initial_login_state)
 
-        {:ok, _} = TellerApi.BodyState.start_link(initial_login_state)
+        {:ok, _} = TellerApi.State.Body.start_link(initial_login_state)
 
 
         signin()

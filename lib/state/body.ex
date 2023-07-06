@@ -1,4 +1,4 @@
-defmodule TellerApi.BodyState do
+defmodule TellerApi.State.Body do
 	use Agent
 
 	def start_link(initial_state) do
