@@ -21,11 +21,12 @@ defmodule TellerApi.MFAVerify do
         body = Poison.decode!(body)
         TellerApi.State.Body.update_state(body)
 
-        update_header_state(headers)
-
-        status_text = get_status_text(status_code)
-        IO.puts("\e[32m#{status_code} #{status_text}\e[0m")
-        output_response(headers)
+        if (status_code == 200) do
+            status_text = get_status_text(status_code)
+            IO.puts("\e[32m#{status_code} #{status_text}\e[0m")
+            output_response(headers)
+            update_header_state(headers)        
+        end
 
         handle_response(status_code, body)
     end

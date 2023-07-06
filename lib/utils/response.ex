@@ -62,10 +62,7 @@ defmodule TellerAPI.Utils.Response do
 
             _ ->
                 status_text = get_status_text(status_code)
-                error_message = Map.get(body, "error") |> Map.get("message")
                 IO.puts("\e[31m#{status_code} #{status_text}\e[0m")
-                IO.puts("#{error_message}")
-
         end
     end
 end
