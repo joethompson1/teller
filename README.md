@@ -23,7 +23,7 @@ Tellers coding assessment.
 
 ## How to use the application
 
-You will first need to login in order to view account details.
+Once running the interactive shell, you will first need to login in order to establish authentication details.
 
 ### Login:
 You will need to call the login function passing in device_id, username and password like so:
