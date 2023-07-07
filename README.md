@@ -34,7 +34,7 @@ You will need to call the login function passing in device_id, username and pass
 Once logged in you can then interact with the application to get the account details.
 
 
-## Account Balance:
+### Account Balance:
 You can get the account balance by running:
   ```shell
   TellerApi.App.account_balance('<acc_id>')
@@ -42,7 +42,7 @@ You can get the account balance by running:
 
 
 
-## Account Transactions:
+### Account Transactions:
 You can get the account balance by running:
   ```shell
   TellerApi.App.account_transactions('<acc_id>')
