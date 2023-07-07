@@ -29,7 +29,6 @@ defmodule TellerApi.App do
                 TellerApi.State.Body.start_link(initial_login_state)
 
             _pid ->
-
                 TellerApi.State.Header.update_state(initial_header_state)
                 TellerApi.State.Body.update_state(initial_login_state)
                 TellerApi.State.Login.update_state(initial_login_state)
