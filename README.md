@@ -28,7 +28,7 @@ Once running the interactive shell, you will first need to login in order to est
 ### Login:
 You will need to call the login function passing in device_id, username and password like so:
   ```shell
-  TellerApi.App.login('<device_id>', '<username>', '<password>')
+  TellerApi.App.login("<device_id>", "<username>", "<password>")
   ```
 
 Once logged in you can then interact with the application to get the account details.
@@ -37,7 +37,7 @@ Once logged in you can then interact with the application to get the account det
 ### Account Balance:
 You can get the account balance by running:
   ```shell
-  TellerApi.App.account_balance('<acc_id>')
+  TellerApi.App.account_balance("<acc_id>")
   ```
 
 
@@ -45,7 +45,7 @@ You can get the account balance by running:
 ### Account Transactions:
 You can get the account transactions by running:
   ```shell
-  TellerApi.App.account_transactions('<acc_id>')
+  TellerApi.App.account_transactions("<acc_id>")
   ```
 
 
