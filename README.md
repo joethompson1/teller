@@ -43,7 +43,7 @@ You can get the account balance by running:
 
 
 ### Account Transactions:
-You can get the account balance by running:
+You can get the account transactions by running:
   ```shell
   TellerApi.App.account_transactions('<acc_id>')
   ```
