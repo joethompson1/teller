@@ -1,21 +1,51 @@
 # TellerApi
 
-**TODO: Add description**
+Tellers coding assessment.
 
-## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `teller_api` to your list of dependencies in `mix.exs`:
+## Getting Started
 
-```elixir
-def deps do
-  [
-    {:teller_api, "~> 0.1.0"}
-  ]
-end
-```
+1. Clone or download the project to your local machine.
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/teller_api>.
+2. Open a terminal and navigate to the project directory.
+
+3. Install the project dependencies by running the following command:
+
+   ```shell
+   mix deps.get
+   ```
+
+4. Start the Elixir interactive shell
+  ```shell
+   iex -S mix
+   ```
+
+
+## How to use the application
+
+You will first need to login in order to view account details.
+
+### Login:
+You will need to call the login function passing in device_id, username and password like so:
+  ```shell
+   TellerApi.App.login('<device_id>', '<username>', '<password>')
+   ```
+
+Once logged in you can then interact with the application to get the account details.
+
+
+## Account Balance:
+You can get the account balance by running:
+  ```shell
+   TellerApi.App.account_balance('<acc_id>')
+   ```
+
+
+
+## Account Transactions:
+You can get the account balance by running:
+  ```shell
+   TellerApi.App.account_transactions('<acc_id>')
+   ```
+
 
