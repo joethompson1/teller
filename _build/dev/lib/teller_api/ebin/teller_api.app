@@ -1,6 +1,7 @@
 {application,teller_api,
              [{optional_applications,[]},
-              {applications,[kernel,stdlib,elixir,logger,httpoison,poison]},
+              {applications,[kernel,stdlib,elixir,logger,crypto,httpoison,
+                             poison]},
               {description,"teller_api"},
               {modules,['Elixir.TellerAPI.Utils.Response',
                         'Elixir.TellerAPI.Utils.Token',

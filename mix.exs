@@ -15,7 +15,7 @@ defmodule TellerApi.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger, :crypto]
     ]
   end
 
@@ -24,6 +24,7 @@ defmodule TellerApi.MixProject do
     [
       {:httpoison, "~> 1.8"},
       {:poison, "~> 4.0"},
+      # {:ex_crypto, "~> 0.10"},
     ]
   end
 end

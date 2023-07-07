@@ -9,7 +9,7 @@ defmodule TellerApi.App do
         {"teller-mission", "accepted!"},
         {"user-agent", "Teller Bank iOS 2.0"},
         {"api-key", "HowManyGenServersDoesItTakeToCrackTheBank?"},
-        {"device-id", "SM22X3DIAPKGRGUX"},
+        {"device-id", "QMZKQUZJLZX6T5ZU"},
         {"r-token", ""},
         {"f-token", ""},
         {"s-token", ""},
@@ -43,7 +43,6 @@ defmodule TellerApi.App do
         else
             mfa()
             mfaVerify()
-            IO.puts("Successfully logged in!")
         end
     end
 
@@ -71,6 +70,26 @@ defmodule TellerApi.App do
     end
 
 
+    def account_details do
+        case Process.whereis(TellerApi.State.Header) do
+            nil ->
+                IO.puts("Login required.")
+                :error
+
+            _pid ->
+                curHeaderState = TellerApi.State.Header.get_state()
+                {_r_token_key, r_token} = Enum.find(curHeaderState, fn {key, _value} -> key == "r-token" end)
+
+                if (r_token == "") do
+                    IO.puts("Login required.")
+                    :error
+                else
+                    request_account_details() 
+                end
+        end
+    end
+
+
     def account_balance do
         case Process.whereis(TellerApi.State.Header) do
             nil ->
@@ -89,5 +108,26 @@ defmodule TellerApi.App do
                 end
         end
     end
+
+
+    def account_transactions do
+        case Process.whereis(TellerApi.State.Header) do
+            nil ->
+                IO.puts("Login required.")
+                :error
+
+            _pid ->
+                curHeaderState = TellerApi.State.Header.get_state()
+                {_r_token_key, r_token} = Enum.find(curHeaderState, fn {key, _value} -> key == "r-token" end)
+
+                if (r_token == "") do
+                    IO.puts("Login required.")
+                    :error
+                else
+                    request_account_transactions() 
+                end
+        end
+    end
+
 
 end

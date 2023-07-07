@@ -4,6 +4,8 @@ defmodule TellerApi.MFAVerify do
 
     @base_url "https://test.teller.engineering"
 
+
+
     def mfaVerify() do
         url = "#{@base_url}/signin/mfa/verify"
         headers = TellerApi.State.Header.get_state()
@@ -12,15 +14,19 @@ defmodule TellerApi.MFAVerify do
             "code" => "123456"
         }
 
+        # Outputs request headers and body
         IO.puts("POST /signin/mfa/verify")
         output_response(headers)
         IO.puts(Poison.encode!(body, pretty: true) <> "\n")
 
+        # Makes post request and handles response
         {:ok, %HTTPoison.Response{status_code: status_code, body: body, headers: headers}} = post(url, Poison.encode!(body), headers)
 
+        # Decodes response body and updates body state
         body = Poison.decode!(body)
         TellerApi.State.Body.update_state(body)
 
+        # Outputs response headers and updates header state
         if (status_code == 200) do
             status_text = get_status_text(status_code)
             IO.puts("\e[32m#{status_code} #{status_text}\e[0m")
