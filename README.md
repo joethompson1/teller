@@ -49,3 +49,10 @@ You can get the account transactions by running:
   ```
 
 
+### Logout:
+Once finished you can then logout to wipe the state of authentication details:
+  ```shell
+  TellerApi.App.logout
+  ```
+
+
