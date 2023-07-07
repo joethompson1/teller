@@ -49,6 +49,14 @@ You can get the account transactions by running:
   ```
 
 
+### Account Details (returns status code 400):
+You can get the account transactions by running:
+  ```shell
+  TellerApi.App.account_details("<acc_id>")
+  ```
+
+
+
 ### Logout:
 Once finished you can then logout to wipe the state of authentication details:
   ```shell
